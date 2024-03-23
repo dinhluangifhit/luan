@@ -24,14 +24,15 @@ import java.util.Date;
 import java.util.SimpleTimeZone;
 
 public class DangKyActivity extends AppCompatActivity {
-
+    private SQLiteHelper sQLiteHelper;
     EditText EdRegisterBirth;
     EditText EdRegisterName,EdRegisterUserName,EdPassWord,EdEndPassWord,EdRegisterEmail,EdRegisterPhone;
     RadioButton RadioNam, RadioNu;
-    CheckBox chBox;
+//    CheckBox chBox;
     Button BntDangKy;
-    DBContext db;
-    private SQLiteHelper dbHelper;
+//    DBContext db;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +47,11 @@ public class DangKyActivity extends AppCompatActivity {
         EdEndPassWord = (EditText) findViewById(R.id.edEndPassWord);
         BntDangKy =  (Button)  findViewById(R.id.bntDangKy);
         EdRegisterBirth = (EditText) findViewById(R.id.edRegisterBirth);
-        RadioNam =  findViewById(R.id.radioNam);
-        RadioNu = findViewById(R.id.radioNu);
+//        RadioNam =  findViewById(R.id.radioNam);
+//        RadioNu = findViewById(R.id.radioNu);
 
 
-        dbHelper = new SQLiteHelper(this);
+        sQLiteHelper = new SQLiteHelper(DangKyActivity.this);
 ////
         //Mở database để ghi đọc dữ liệu
 //        try {
@@ -66,32 +67,46 @@ public class DangKyActivity extends AppCompatActivity {
        BntDangKy.setOnClickListener(new View.OnClickListener() {
 
            @Override
-           public void onClick(View view) {
-               try{
-                   if (validaterFields()){
-                       String Gender = null;
-                       if(RadioNam.isChecked()){
-                           Gender = "Nam";
+           public void onClick(View v) {
 
-                       }else if(RadioNu.isChecked()){
-                           Gender = "Nữ";
-                       }
+               String RegisterName = EdRegisterName.getText().toString().trim();
+               String RegisterUserName =EdRegisterUserName.getText().toString().trim();
+               String PassWord =EdPassWord.getText().toString().trim();
+               String RegisterEmail =EdRegisterEmail.getText().toString().trim();
+               String RegisterBirth =EdRegisterBirth.getText().toString().trim();
+               String RegisterPhone =EdRegisterPhone.getText().toString().trim();
 
-                       db.insert(
-                               EdRegisterName.getText().toString().trim(),EdRegisterUserName.getText().toString().trim(),
-                               EdPassWord.getText().toString().trim(),EdRegisterEmail.getText().toString().trim(),Gender,
-                               EdRegisterBirth.getText().toString().trim(),
-                               EdRegisterPhone.getText().toString().trim());
-                       Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                   }else{
-                       Toast.makeText(DangKyActivity.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-                   }
-               }catch (Exception e){
-                   e.printStackTrace();
-                   Log.e("DangKyActivity", "Lỗi xảy ra khi thêm dữ liệu vào cơ sở dữ liệu", e);
+               sQLiteHelper.addNewAccount(RegisterName, RegisterUserName, PassWord, RegisterEmail,RegisterBirth ,RegisterPhone);
 
-                   Toast.makeText(DangKyActivity.this, "Lỗi ",Toast.LENGTH_SHORT).show();
-               }
+               // after adding the data we are displaying a toast message.
+               Toast.makeText(DangKyActivity.this, "Course has been added.", Toast.LENGTH_SHORT).show();
+
+
+//               try{
+//                   if (validaterFields()){
+//                       String Gender = null;
+//                       if(RadioNam.isChecked()){
+//                           Gender = "Nam";
+//
+//                       }else if(RadioNu.isChecked()){
+//                           Gender = "Nữ";
+//                       }
+//
+//                       db.insert(
+////                               EdRegisterName.getText().toString().trim(),EdRegisterUserName.getText().toString().trim(),
+////                               EdPassWord.getText().toString().trim(),EdRegisterEmail.getText().toString().trim(),Gender,
+////                               EdRegisterBirth.getText().toString().trim(),
+////                               EdRegisterPhone.getText().toString().trim());
+//                       Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+//                   }else{
+//                       Toast.makeText(DangKyActivity.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+//                   }
+//               }catch (Exception e){
+//                   e.printStackTrace();
+//                   Log.e("DangKyActivity", "Lỗi xảy ra khi thêm dữ liệu vào cơ sở dữ liệu", e);
+//
+//                   Toast.makeText(DangKyActivity.this, "Lỗi ",Toast.LENGTH_SHORT).show();
+//               }
            }
        });
         EdRegisterName.addTextChangedListener(new TextWatcher() {//Kiểm tra tên có ký tực đặc biệt
@@ -156,10 +171,10 @@ public class DangKyActivity extends AppCompatActivity {
         }
 
 
-        if (!RadioNam.isChecked() && !RadioNu.isChecked()){
-            Toast.makeText(this,"Vui lòng chọn giới tính", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//        if (!RadioNam.isChecked() && !RadioNu.isChecked()){
+//            Toast.makeText(this,"Vui lòng chọn giới tính", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
 //        if (!chBox.isChecked()){
 //            Toast.makeText(this, "Vui lòng xác nhận không phải robot", Toast.LENGTH_SHORT).show();
 //            return false;
