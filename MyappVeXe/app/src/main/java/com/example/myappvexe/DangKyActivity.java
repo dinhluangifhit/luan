@@ -1,27 +1,22 @@
 package com.example.myappvexe;
 
 import android.app.DatePickerDialog;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
-import android.util.Log;
-import java.text.BreakIterator;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Calendar;
-import java.util.Date;
-import java.util.SimpleTimeZone;
+
 
 public class DangKyActivity extends AppCompatActivity {
     private SQLiteHelper sQLiteHelper;
@@ -47,66 +42,60 @@ public class DangKyActivity extends AppCompatActivity {
         EdEndPassWord = (EditText) findViewById(R.id.edEndPassWord);
         BntDangKy =  (Button)  findViewById(R.id.bntDangKy);
         EdRegisterBirth = (EditText) findViewById(R.id.edRegisterBirth);
-//        RadioNam =  findViewById(R.id.radioNam);
-//        RadioNu = findViewById(R.id.radioNu);
+        RadioNam =  findViewById(R.id.radioNam);
+        RadioNu = findViewById(R.id.radioNu);
 
 
         sQLiteHelper = new SQLiteHelper(DangKyActivity.this);
-////
-        //Mở database để ghi đọc dữ liệu
-//        try {
-//            db = new DBContext(this);
-//            db.opent();
-//        }catch (Exception e){
-//            Log.d(e.getMessage(), "onCreate: ");
-//        }
 
-
-
-
+        //Đăng ký khách hàng
        BntDangKy.setOnClickListener(new View.OnClickListener() {
-
            @Override
            public void onClick(View v) {
+               if (validaterFields()) {
+                   String RegisterName = EdRegisterName.getText().toString().trim();
+                   String RegisterUserName = EdRegisterUserName.getText().toString().trim();
+                   String PassWord = EdPassWord.getText().toString().trim();
+                   String RegisterEmail = EdRegisterEmail.getText().toString().trim();
+                   String RegisterBirth = EdRegisterBirth.getText().toString().trim();
+                   String RegisterPhone = EdRegisterPhone.getText().toString().trim();
+                   String hashedPassWord = PassWordHash.hashPassWord(PassWord);
 
-               String RegisterName = EdRegisterName.getText().toString().trim();
-               String RegisterUserName =EdRegisterUserName.getText().toString().trim();
-               String PassWord =EdPassWord.getText().toString().trim();
-               String RegisterEmail =EdRegisterEmail.getText().toString().trim();
-               String RegisterBirth =EdRegisterBirth.getText().toString().trim();
-               String RegisterPhone =EdRegisterPhone.getText().toString().trim();
+                   //Kiểm tra giới tính
+                   String RegisterGender = null;
+                   if (RadioNam.isChecked()) {
+                       RegisterGender = "Nam";
 
-               sQLiteHelper.addNewAccount(RegisterName, RegisterUserName, PassWord, RegisterEmail,RegisterBirth ,RegisterPhone);
+                   } else {
+                       RegisterGender = "Nữ";
 
-               // after adding the data we are displaying a toast message.
-               Toast.makeText(DangKyActivity.this, "Course has been added.", Toast.LENGTH_SHORT).show();
+                   }
 
+                   if(sQLiteHelper.isUserNameExists(RegisterUserName)){
+                       Toast.makeText(DangKyActivity.this, "Tên đăng nhập người dùng đã tồn tại.", Toast.LENGTH_SHORT).show();
+                   }
 
-//               try{
-//                   if (validaterFields()){
-//                       String Gender = null;
-//                       if(RadioNam.isChecked()){
-//                           Gender = "Nam";
-//
-//                       }else if(RadioNu.isChecked()){
-//                           Gender = "Nữ";
-//                       }
-//
-//                       db.insert(
-////                               EdRegisterName.getText().toString().trim(),EdRegisterUserName.getText().toString().trim(),
-////                               EdPassWord.getText().toString().trim(),EdRegisterEmail.getText().toString().trim(),Gender,
-////                               EdRegisterBirth.getText().toString().trim(),
-////                               EdRegisterPhone.getText().toString().trim());
-//                       Toast.makeText(DangKyActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-//                   }else{
-//                       Toast.makeText(DangKyActivity.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-//                   }
-//               }catch (Exception e){
-//                   e.printStackTrace();
-//                   Log.e("DangKyActivity", "Lỗi xảy ra khi thêm dữ liệu vào cơ sở dữ liệu", e);
-//
-//                   Toast.makeText(DangKyActivity.this, "Lỗi ",Toast.LENGTH_SHORT).show();
-//               }
+                    else{
+                       sQLiteHelper.addNewAccount(RegisterName, RegisterUserName, hashedPassWord, RegisterEmail, RegisterGender, RegisterBirth, RegisterPhone);
+
+                       // after adding the data we are displaying a toast message.
+                       Toast.makeText(DangKyActivity.this, "Đăng ký tài khoản thành công.", Toast.LENGTH_SHORT).show();
+
+                       //Create a Handler to delay the navigation back to LoginActivity
+                       new Handler().postDelayed(new Runnable() {
+                           @Override
+                           public void run() {
+                               // Create an Intent to navigate back to DangNhapActivity
+                               Intent intent = new Intent(DangKyActivity.this, DangNhapActivity.class);
+                               startActivity(intent);// Start the DangNhapActivity
+                               finish();
+                           }
+                       }, 3000);
+                   }
+
+               }else{
+                   Toast.makeText(DangKyActivity.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+               }
            }
        });
         EdRegisterName.addTextChangedListener(new TextWatcher() {//Kiểm tra tên có ký tực đặc biệt
@@ -162,47 +151,17 @@ public class DangKyActivity extends AppCompatActivity {
         String phone = EdRegisterPhone.getText().toString().trim();
 
 
-
-
         //Kiểm tra đã nhập đầy đủ các trường chưa
         if(name.isEmpty()||username.isEmpty()||password.isEmpty()||confirmPassWord.isEmpty()||birthday.isEmpty()||
         email.isEmpty()||phone.isEmpty()){
             return false;
         }
-
-
-//        if (!RadioNam.isChecked() && !RadioNu.isChecked()){
-//            Toast.makeText(this,"Vui lòng chọn giới tính", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }
-//        if (!chBox.isChecked()){
-//            Toast.makeText(this, "Vui lòng xác nhận không phải robot", Toast.LENGTH_SHORT).show();
-//            return false;
-//        }
+        if (!RadioNam.isChecked() && !RadioNu.isChecked()){
+            Toast.makeText(this,"Vui lòng chọn giới tính", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
-
-//    private void saveDataDatabase(){
-//        SQLiteDatabase db = dbHelper.getWritableDatabase();
-//
-//        ContentValues values = new ContentValues();
-//        values.put("Name", EdRegisterName.getText().toString().trim());
-//        values.put("userName", EdRegisterUserName.getText().toString().trim());
-//        values.put("passWord", EdPassWord.getText().toString().trim());
-//        values.put("email", EdRegisterEmail.getText().toString().trim());
-//        values.put("gender", RadioNam.isChecked() ? "Nữ" : "Nam");
-//        values.put("dateOfBirth", EdRegisterBirth.getText().toString().trim());
-//        values.put("phone", EdRegisterPhone.getText().toString().trim());
-//
-//        long newRowid = db.insert("custumers", null, values);
-//
-//        if(newRowid != -1){
-//            Toast.makeText(this,"Đã đăng ký thành công", Toast.LENGTH_SHORT).show();
-//        }else {
-//            Toast.makeText(this,"Lỗi", Toast.LENGTH_SHORT).show();
-//        }
-//        db.close();
-//    }
 
 
     private boolean isValidName(String name){

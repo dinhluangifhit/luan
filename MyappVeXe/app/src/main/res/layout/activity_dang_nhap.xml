@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -164,7 +164,7 @@
                     android:id="@+id/btnGoogle"
                     android:layout_width="match_parent"
                     android:layout_height="64dp"
-                    android:text="Đăng nhập với Google"
+                    android:text="Đăng Ký"
                     android:textColor="@color/white"
                     android:textAllCaps="false"
                     android:textStyle="bold"
@@ -172,6 +172,7 @@
                     android:background="@drawable/radio_buton"
                     android:backgroundTint="@android:color/holo_blue_dark"
                     android:layout_marginHorizontal="70dp"
+                    android:onClick="onRegisterClick"
                     />
 
                 <View
@@ -204,35 +205,6 @@
                         android:src="@mipmap/ic_twer_foreground" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bạn chưa có tài khoản?"
-                        android:textSize="15dp" />
-
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:id="@+id/edRegisterLink"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Đăng ký"
-                        android:textSize="15dp"
-                        android:textStyle="italic"
-                        android:textColor="#007bff"
-                        android:clickable="true"
-                        android:onClick="onRegisterClick"
-
-
-                        />
-                </LinearLayout>
-
 
             </LinearLayout>
 
@@ -242,4 +214,4 @@
     </LinearLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
