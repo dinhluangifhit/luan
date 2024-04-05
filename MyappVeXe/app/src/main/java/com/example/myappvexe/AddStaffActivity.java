@@ -2,6 +2,7 @@ package com.example.myappvexe;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -62,6 +63,16 @@ public class AddStaffActivity extends AppCompatActivity {
 
                         // after adding the data we are displaying a toast message.
                         Toast.makeText(AddStaffActivity.this, "Thêm nhân viên thành công.", Toast.LENGTH_SHORT).show();
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(AddStaffActivity.this, DanhSachNhanVienActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }, 2000);
+                       
                     }
                 }
                 else {

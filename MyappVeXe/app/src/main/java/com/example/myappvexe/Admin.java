@@ -65,4 +65,9 @@ public class Admin {
             this.phone = staff.getPhone();
         }
     }
+
+    @Override
+    public String toString(){
+        return name + "\n" + email;
+    }
 }

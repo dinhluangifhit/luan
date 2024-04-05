@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DetailCustomerActivity">
+    tools:context=".Customer.DetailCustomerActivity">
 
     <TextView
         android:id="@+id/detailCus"
@@ -106,34 +106,36 @@
                 android:layout_weight="0.1"/>
 
             <Button
-                android:id="@+id/bntRevisionStaff"
+                android:id="@+id/bntEditCus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="0.3"
+                android:background="@color/teal_700"
                 android:text="Sửa"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:layout_gravity="center"
-                android:background="@color/teal_700"
-                />
+                android:textStyle="bold" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"/>
+
             <Button
-                android:id="@+id/bntDeleteStaff"
+                android:id="@+id/bntDeleteCus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="0.3"
+                android:background="#F80000"
                 android:text="Xóa"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:layout_gravity="center"
-                android:background="#F80000"/>
+                android:textStyle="bold" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

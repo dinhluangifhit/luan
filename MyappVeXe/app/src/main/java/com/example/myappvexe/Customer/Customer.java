@@ -1,4 +1,4 @@
-package com.example.myappvexe;
+package com.example.myappvexe.Customer;
 
 import java.io.Serializable;
 

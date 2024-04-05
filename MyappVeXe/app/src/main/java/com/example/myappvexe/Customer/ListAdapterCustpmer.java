@@ -1,4 +1,4 @@
-package com.example.myappvexe;
+package com.example.myappvexe.Customer;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.example.myappvexe.R;
 
 import java.util.List;
 

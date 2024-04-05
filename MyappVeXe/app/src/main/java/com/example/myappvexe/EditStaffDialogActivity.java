@@ -72,5 +72,13 @@ public class EditStaffDialogActivity extends AppCompatActivity {
 
         dialog = builder.create();
         dialog.show();
+
+        Button BntExitEditStaff = (Button) view.findViewById(R.id.bntExitEditStaff);
+        BntExitEditStaff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 }

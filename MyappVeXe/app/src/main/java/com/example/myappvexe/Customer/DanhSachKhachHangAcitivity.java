@@ -1,4 +1,4 @@
-package com.example.myappvexe;
+package com.example.myappvexe.Customer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.example.myappvexe.AdminActivity;
+import com.example.myappvexe.R;
+import com.example.myappvexe.SQLiteHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +67,6 @@ public class DanhSachKhachHangAcitivity extends AppCompatActivity {
 
                         //Đặt thông tin nhân viên vào intent
                         intent.putExtra("selectedCus", selectedCus);
-
                         startActivity(intent);
                     }
                 });
@@ -87,6 +90,7 @@ public class DanhSachKhachHangAcitivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DanhSachKhachHangAcitivity.this, AdminActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

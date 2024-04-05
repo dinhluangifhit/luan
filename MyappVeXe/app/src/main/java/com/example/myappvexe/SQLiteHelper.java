@@ -204,11 +204,19 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         onCreate(db);
     }
 
-    //Xóa data trong bảng
+    //Xóa data trong bảng staff
     public void deleteDataStaff(String username){
         SQLiteDatabase db = this.getWritableDatabase();
         //Xóa nhân viên từ bảng nhân viên
         db.delete(TABLE_STAFF, userSTAFF_COL + "=?", new  String[]{username});
+        db.close();
+    }
+
+    //Xóa data trong bảng Register
+    public void deleteDataCus(String username){
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Xóa khách hàng
+        db.delete(TABLE_NAME, userName_COL + "=?", new String[]{username});
         db.close();
     }
 
@@ -226,7 +234,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
     }
 
 
-    //Cập nhật data
+    //Cập nhật data Staff
     public boolean updateStaff(String name, String username, String email, String phone){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -237,6 +245,36 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         db.close();
         return rowsAffected > 0;
     }
+
+    //Cập nhật data của Customer
+    public  boolean updateCus(String name, String username, String email, String gender, String dateBirth, String phone){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Name_COL, name);
+        values.put(email_COL, email);
+        values.put(gender_COL, gender);
+        values.put(dateOfBirth_COL, dateBirth);
+        values.put(phone_COL, phone);
+        int rowAffectedCus = db.update(TABLE_NAME, values, userName_COL + "=? ", new  String[]{username});
+        db.close();
+        return rowAffectedCus > 0;
+    }
+
+//    //Lấy thông tin của admin
+//    public Admin getAdminInfor(String userName, String passWord){
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        //truy ván cơ sở dữ liệu đẻ lấy thông tin admin
+//        Cursor cursor = db.rawQuery("SELECT * FROM Admin WHERE userAdmin_COL = ?  AND passWordAdmin_COL = ?",
+//                new String[]{userName, passWord});
+//
+//        Admin admin = null;
+//
+//        if(cursor != null && cursor.moveToFirst())    {
+////            String name = cursor.getString(cursor.getColumnIndex("Name"));
+//        }
+//            db.close();
+//        return admin;
+//    }
 
     //Lấy passWord trong database để so sánh đăng nhập Admin
     public  String getHashedPassWordByUserNameAdmin(String userName){

@@ -1,5 +1,6 @@
 package com.example.myappvexe;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class DetailedActivity extends AppCompatActivity {
@@ -87,13 +89,28 @@ public class DetailedActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(selectedStaff != null){
-                    String username = selectedStaff.getUsername();
-                    sqLiteHelper = new SQLiteHelper(DetailedActivity.this);
-                    sqLiteHelper.deleteDataStaff(username);
-                    Toast.makeText(DetailedActivity.this, "Đã xóa nhân viên thành công", Toast.LENGTH_SHORT).show();
-                    Intent intent1 = new Intent(DetailedActivity.this, DanhSachNhanVienActivity.class);
-                    startActivity(intent1);
-                    finish();
+                    AlertDialog.Builder confirmBuider= new AlertDialog.Builder(DetailedActivity.this);
+                    confirmBuider.setTitle("Xác nhận xóa");
+                    confirmBuider.setMessage("Bạn có muốn xóa nhân viên này?");
+                    confirmBuider.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String username = selectedStaff.getUsername();
+                            sqLiteHelper = new SQLiteHelper(DetailedActivity.this);
+                            sqLiteHelper.deleteDataStaff(username);
+                            Toast.makeText(DetailedActivity.this, "Đã xóa nhân viên thành công", Toast.LENGTH_SHORT).show();
+                            Intent intent1 = new Intent(DetailedActivity.this, DanhSachNhanVienActivity.class);
+                            startActivity(intent1);
+                            finish();
+                        }
+                    });
+                   confirmBuider.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           //Trở về màn hình detail
+                       }
+                   });
+                   confirmBuider.create().show();
                 }
             }
         });

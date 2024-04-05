@@ -108,6 +108,7 @@ public class DanhSachNhanVienActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DanhSachNhanVienActivity.this, AdminActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
