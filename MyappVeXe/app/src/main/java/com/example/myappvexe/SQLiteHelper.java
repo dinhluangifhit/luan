@@ -84,7 +84,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
 
 
-     private final String adamin = "CREATE TABLE " + TABLE_ADMIN + " ("
+     private final String admin = "CREATE TABLE " + TABLE_ADMIN + " ("
                 + ID_ADMIN_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 
                 + NameAdmin_COL + " TEXT,"
@@ -123,7 +123,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase db){
         db.execSQL(query);
-        db.execSQL(adamin);
+        db.execSQL(admin);
         db.execSQL(adstaff);
 
         ContentValues values = new ContentValues();
@@ -261,20 +261,33 @@ public class SQLiteHelper extends SQLiteOpenHelper{
     }
 
     //Lấy thông tin của admin
-    public Admin getAdminInfor(String userName, String passWord){
-        SQLiteDatabase db = this.getReadableDatabase();
-        //truy ván cơ sở dữ liệu đẻ lấy thông tin admin
-        Cursor cursor = db.rawQuery("SELECT * FROM Admin WHERE userAdmin_COL = ?  AND passWordAdmin_COL = ?",
-                new String[]{userName, passWord});
+        public Admin getAdminInfor(String userName) {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor cursor = null;
+            Admin admin = null;
 
-        Admin admin = null;
 
-        if(cursor != null && cursor.moveToFirst())    {
-            String name = cursor.getString(cursor.getColumnIndex("Name"));
-        }
+            try {
+                //truy ván cơ sở dữ liệu đẻ lấy thông tin admin
+                 cursor = db.query(TABLE_ADMIN, null, userAdmin_COL + " = ?",
+                         new String[]{userName}, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    String name = cursor.getString( cursor.getColumnIndexOrThrow(NameAdmin_COL));
+                    String email = cursor.getString(cursor.getColumnIndexOrThrow(emailAdmin_COL));
+                    admin = new Admin(name, email);
+                }
+
+            } catch (Exception e){
+                e.printStackTrace();
+            } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
             db.close();
-        return admin;
-    }
+        }
+
+            return admin;
+        }
 
     //Lấy passWord trong database để so sánh đăng nhập Admin
     public  String getHashedPassWordByUserNameAdmin(String userName){

@@ -28,17 +28,18 @@ public class AdminActivity extends AppCompatActivity {
         ViewEmail = (TextView) findViewById(R.id.viewEmail);
         inLogout = (TextView) findViewById(R.id.logOut);
 
-        Intent intent = getIntent();
-        String userName = intent.getStringExtra("userName");
-        String passWord = intent.getStringExtra("passWord");
-//
-//        SQLiteHelper dbHelper = new SQLiteHelper(this);
-//        Admin admin = dbHelper.getAdminInfor(userName, passWord);
+        // Kiểm tra nếu có thông tin tài khoản admin từ SharedPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String saverUserName = sharedPreferences.getString("userName", "");
 
-//        if(admin != null){
-//            ViewName.setText(admin.getName());
-//            ViewEmail.setText(admin.getEmail());
-//        }
+
+
+        if(!saverUserName.isEmpty()){
+            SQLiteHelper dbHelper = new SQLiteHelper(this);
+            Admin admin = dbHelper.getAdminInfor(saverUserName);
+            ViewName.setText(admin.getName());
+            ViewEmail.setText(admin.getEmail());
+        }
 
 
         ListStaff.setOnClickListener(new View.OnClickListener() {
@@ -84,9 +85,6 @@ public class AdminActivity extends AppCompatActivity {
         finish();
     }
 
-//    public Admin getAdminInfor (String userName, String passWord){
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor cursor = db.rawQuery()
-//    }
+
 
 }

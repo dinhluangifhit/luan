@@ -47,6 +47,7 @@ public class DanhSachNhanVienActivity extends AppCompatActivity {
 
 
 
+
         List<Staff> staffList = adapter.getAllStaffs();
         //Hiển thị danh sách nhân viên
         LisAdapterAcitivity adapter = new LisAdapterAcitivity(this, staffList);

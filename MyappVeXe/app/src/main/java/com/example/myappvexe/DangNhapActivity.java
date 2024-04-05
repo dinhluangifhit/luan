@@ -10,6 +10,7 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class DangNhapActivity extends AppCompatActivity {
     private EditText EdUser, EdPassWord;
     private boolean passwordVisible;
     private Button BntDangNhap;
+    private CheckBox CheckSaveLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -30,6 +32,9 @@ public class DangNhapActivity extends AppCompatActivity {
 
         EdUser = (EditText) findViewById(R.id.edUser);
         EdPassWord = (EditText)  findViewById(R.id.edPassWord);
+        CheckSaveLogin = (CheckBox) findViewById(R.id.checkSaveLogin);
+
+
         //Hiển thị mật khẩu của người dùng
         EdPassWord.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -59,7 +64,7 @@ public class DangNhapActivity extends AppCompatActivity {
         });
 
         authManager = new AuthenticationManager(this);
-
+        checkSaverLogin();
         setupLogin();
         checkLogin();
 
@@ -88,8 +93,6 @@ public class DangNhapActivity extends AppCompatActivity {
                 Toast.makeText(this, "Đăng nhập thành công với vai trò Admin", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(DangNhapActivity.this, AdminActivity.class);
                 intent.putExtra("userName", userName);
-                intent.putExtra("passWord", passWord);
-
                 startActivity(intent);
                 finish();
             } else {
@@ -100,6 +103,7 @@ public class DangNhapActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Vui lòng điền đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
         }
     }
+
 
 
     private void setupLogin(){
@@ -129,19 +133,21 @@ public class DangNhapActivity extends AppCompatActivity {
     private void checkLogin(){
         //Kiểm tra người dùng đã đăng nhập trước đó
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        boolean isLogin = sharedPreferences.getBoolean("isLogin",false);
+        boolean isLogin = sharedPreferences.getBoolean("isLogin", false);
+        String userName = sharedPreferences.getString("userName", "");
+        String passWord = sharedPreferences.getString("passWord", "");
         String userRole = sharedPreferences.getString("userRole", "");
         if(isLogin){
             //Người dùng đã đăng nhập
             if("admin".equalsIgnoreCase(userRole)){
                 //Người dùng đăng nhập là Admin
-                Intent adminIntent = new Intent(DangNhapActivity.this, AdminActivity.class);
-                startActivity(adminIntent);
+                Intent intent = new Intent(DangNhapActivity.this, AdminActivity.class);
+                startActivity(intent);
                 finish();
             } else if("user".equalsIgnoreCase(userRole)){
                 //Người dùng đăng nhập là user
-                Intent userIntent = new Intent(DangNhapActivity.this, MainActivity.class);
-                startActivity(userIntent);
+                Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
+                startActivity(intent);
                 finish();
             } else {
                 //Trường hợp không xác định đăng nhập lại
@@ -149,6 +155,20 @@ public class DangNhapActivity extends AppCompatActivity {
                 sharedPreferences.edit().clear().apply();
             }
 
+        }
+    }
+
+    //Ghi nhớ đăng nhập người dùng
+    private  void checkSaverLogin(){
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String saveuserName = sharedPreferences.getString("userName", "");
+        String savepassWord = sharedPreferences.getString("passWord", "");
+
+        if(!saveuserName.isEmpty() && !savepassWord.isEmpty()){
+            //Đã có thông tin đăng nhập tự động lưu vào trường
+            EdUser.setText(saveuserName);
+            EdPassWord.setText(savepassWord);
+            CheckSaveLogin.setChecked(true);
         }
     }
 

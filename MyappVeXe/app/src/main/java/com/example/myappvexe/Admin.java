@@ -8,6 +8,11 @@ public class Admin {
     private String email;
     private String phone;
 
+    public Admin(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public long getId() {
         return id;
     }
@@ -66,8 +71,8 @@ public class Admin {
         }
     }
 
-    @Override
-    public String toString(){
-        return name + "\n" + email;
-    }
+//    @Override
+//    public String toString(){
+//        return name + "\n" + email;
+//    }
 }
