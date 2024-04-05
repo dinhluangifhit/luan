@@ -84,4 +84,9 @@ public class AdminActivity extends AppCompatActivity {
         finish();
     }
 
+//    public Admin getAdminInfor (String userName, String passWord){
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor cursor = db.rawQuery()
+//    }
+
 }

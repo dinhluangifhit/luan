@@ -260,21 +260,21 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         return rowAffectedCus > 0;
     }
 
-//    //Lấy thông tin của admin
-//    public Admin getAdminInfor(String userName, String passWord){
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        //truy ván cơ sở dữ liệu đẻ lấy thông tin admin
-//        Cursor cursor = db.rawQuery("SELECT * FROM Admin WHERE userAdmin_COL = ?  AND passWordAdmin_COL = ?",
-//                new String[]{userName, passWord});
-//
-//        Admin admin = null;
-//
-//        if(cursor != null && cursor.moveToFirst())    {
-////            String name = cursor.getString(cursor.getColumnIndex("Name"));
-//        }
-//            db.close();
-//        return admin;
-//    }
+    //Lấy thông tin của admin
+    public Admin getAdminInfor(String userName, String passWord){
+        SQLiteDatabase db = this.getReadableDatabase();
+        //truy ván cơ sở dữ liệu đẻ lấy thông tin admin
+        Cursor cursor = db.rawQuery("SELECT * FROM Admin WHERE userAdmin_COL = ?  AND passWordAdmin_COL = ?",
+                new String[]{userName, passWord});
+
+        Admin admin = null;
+
+        if(cursor != null && cursor.moveToFirst())    {
+            String name = cursor.getString(cursor.getColumnIndex("Name"));
+        }
+            db.close();
+        return admin;
+    }
 
     //Lấy passWord trong database để so sánh đăng nhập Admin
     public  String getHashedPassWordByUserNameAdmin(String userName){
