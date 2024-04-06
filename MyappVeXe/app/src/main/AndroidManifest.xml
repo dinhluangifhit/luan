@@ -15,11 +15,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyappVeXe"
         tools:targetApi="33" >
+
+        <activity
+            android:name=".Customer.HomePage"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".DangNhapActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -35,15 +47,6 @@
         </activity>
         <activity
             android:name=".DangNhapActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".Customer.HomePage"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
