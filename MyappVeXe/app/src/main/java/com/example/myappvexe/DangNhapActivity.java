@@ -1,5 +1,6 @@
 package com.example.myappvexe;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,17 +17,18 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myappvexe.Customer.HomePage;
+
 public class DangNhapActivity extends AppCompatActivity {
     private AuthenticationManager authManager;
-    private SQLiteDatabase mydatabase;
     private EditText EdUser, EdPassWord;
     private boolean passwordVisible;
-    private Button BntDangNhap;
     private CheckBox CheckSaveLogin;
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        mydatabase = openOrCreateDatabase("mydatabaseBanVeXe.sqlite", MODE_PRIVATE, null);
+        SQLiteDatabase mydatabase = openOrCreateDatabase("mydatabaseBanVeXe.sqlite", MODE_PRIVATE, null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dang_nhap);
 
@@ -84,7 +86,8 @@ public class DangNhapActivity extends AppCompatActivity {
                 //Đăng nhập thành công người dùng là user
                 saveLogin(userName, passWord, "user");
                 Toast.makeText(this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
+                Intent intent = new Intent(DangNhapActivity.this, HomePage.class);
+                intent.putExtra("userName", userName);
                 startActivity(intent);
                 finish();
             } else if(authManager.AdminAuthenticate(userName, passWord)){
@@ -107,8 +110,8 @@ public class DangNhapActivity extends AppCompatActivity {
 
 
     private void setupLogin(){
-        BntDangNhap = (Button) findViewById(R.id.bntDangNhap);
-        BntDangNhap.setOnClickListener(new View.OnClickListener() {
+        Button bntDangNhap = (Button) findViewById(R.id.bntDangNhap);
+        bntDangNhap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String userName = EdUser.getText().toString().trim();
@@ -146,7 +149,7 @@ public class DangNhapActivity extends AppCompatActivity {
                 finish();
             } else if("user".equalsIgnoreCase(userRole)){
                 //Người dùng đăng nhập là user
-                Intent intent = new Intent(DangNhapActivity.this, MainActivity.class);
+                Intent intent = new Intent(DangNhapActivity.this, HomePage.class);
                 startActivity(intent);
                 finish();
             } else {

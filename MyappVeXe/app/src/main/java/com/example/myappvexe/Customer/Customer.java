@@ -1,5 +1,7 @@
 package com.example.myappvexe.Customer;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class Customer implements Serializable {
@@ -8,6 +10,14 @@ public class Customer implements Serializable {
     private String username;
     private String password;
     private String email;
+
+    public Customer(String name) {
+        this.name = name;
+    }
+
+    public Customer() {
+        this.name = "";
+    }
 
     public String getPassword() {
         return password;
@@ -77,6 +87,7 @@ public class Customer implements Serializable {
         this.phone = phone;
     }
 
+    @NonNull
     @Override
     public String toString(){
         return name + "\n" + username + "\n" + password + "\n" + email + "\n" + gender + "\n" + dayofbidth + "\n" + phone;
