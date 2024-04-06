@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.myappvexe.Customer.Customer;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 
@@ -64,8 +66,30 @@ public class SQLiteHelper extends SQLiteOpenHelper{
     public static final String phoneSTAFF_COL = "phone";
 
 
+    //Dữ liệu bảng location
+    public static final String TABLE_LOCATION = "Location";
+    public static final String ID_LOCATION_COL = "id";
+    public static final String NameLocation_COL = "Name";
+    public static final String BusStation_COL = "NameStation";
 
-    private final String query = "CREATE TABLE " + TABLE_NAME + " ("
+    //Dữ liệu bảng Trip
+    //Dữ liệu bảng location
+    public static final String TABLE_TRIP = "Trip";
+    public static final String ID_TRIP_COL = "id";
+    public static final String tripLocationStar_COL = "NameLocationStar";
+    public static final String tripLocationEnd_COL = "NameLocationEnd";
+    public static final String tripDate_COL = "dateStar";
+
+    public static final String tripTimeStar_COL = "timeStar";
+    public static final String tripTimeEnd_COL = "timeEnd";
+    public static final String tripPrice_COL = "price";
+    public static final String seats_COL = "seat";
+    public static final String intendTime = "tripTime";
+    public static final String LOCATION_ID_COL  = "idLocaton";
+
+
+
+    private static final String query = "CREATE TABLE " + TABLE_NAME + " ("
                 + ID_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 
                 + Name_COL + " TEXT,"
@@ -84,7 +108,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
 
 
-     private final String admin = "CREATE TABLE " + TABLE_ADMIN + " ("
+     private  final String admin = "CREATE TABLE " + TABLE_ADMIN + " ("
                 + ID_ADMIN_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 
                 + NameAdmin_COL + " TEXT,"
@@ -99,7 +123,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
 
 
-    private final String adstaff = "CREATE TABLE " + TABLE_STAFF+ " ("
+    private  final String adstaff = "CREATE TABLE " + TABLE_STAFF+ " ("
             + ID_STAFF_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
 
             + NameSTAFF_COL + " TEXT,"
@@ -111,6 +135,25 @@ public class SQLiteHelper extends SQLiteOpenHelper{
             + emailSTAFF_COL + " TEXT,"
 
             + phoneSTAFF_COL + " TEXT)";
+
+
+    private  final String location = "CREATE TABLE " + TABLE_LOCATION+ " ("
+            + ID_LOCATION_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+
+            + NameLocation_COL + " TEXT,"
+
+            + BusStation_COL + " TEXT)";
+
+    private final String trip = "CREATE TABLE " + TABLE_TRIP + " ("
+            + ID_TRIP_COL + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + tripLocationStar_COL + " TEXT, "
+            + tripLocationEnd_COL + " TEXT, "
+            + tripDate_COL + " TEXT, "
+            + tripTimeStar_COL + " TEXT, "
+            + tripTimeEnd_COL + " TEXT, "
+            + tripPrice_COL + " REAL, "
+            + seats_COL + " INTEGER, "
+            + intendTime + " TEXT)";
 
 
     public SQLiteHelper( Context context) {
@@ -125,6 +168,10 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         db.execSQL(query);
         db.execSQL(admin);
         db.execSQL(adstaff);
+        db.execSQL(location);
+        db.execSQL(trip);
+
+
 
         ContentValues values = new ContentValues();
         values.put(NameAdmin_COL, "Nguyen Van A");
@@ -134,6 +181,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         values.put(emailAdmin_COL, "admin@example.com");
         values.put(phoneAdmin_COL, "1234567890");
         db.insert(TABLE_ADMIN, null, values);
+
     }
 
 
@@ -197,10 +245,37 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         db.insert(TABLE_STAFF, null, values);
         db.close();
     }
+    //Thêm location
+    public  void addLocation(String locationName, String busSationName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(NameLocation_COL, locationName);
+        values.put(BusStation_COL, busSationName);
 
+        db.insert(TABLE_LOCATION, null, values);
+        db.close();
+    }
+
+    //Thêm Trip
+    public  void addTrip(String locationStar, String locationEnd, String tripDate, String tripTimeStar,
+                         String tripTimeEnd, String tripPrice, String tripSeat, String tripintendTime){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(tripLocationStar_COL, locationStar);
+        values.put(tripLocationEnd_COL, locationEnd);
+        values.put(tripDate_COL, tripDate);
+        values.put(tripTimeStar_COL, tripTimeStar);
+        values.put(tripTimeEnd_COL,tripTimeEnd);
+        values.put(tripPrice_COL, tripPrice);
+        values.put(seats_COL, tripSeat);
+        values.put(intendTime, tripintendTime);
+
+        db.insert(TABLE_TRIP, null, values);
+        db.close();
+    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME + TABLE_ADMIN + TABLE_STAFF);
+       db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME + TABLE_ADMIN + TABLE_STAFF + TABLE_LOCATION + TABLE_TRIP);
         onCreate(db);
     }
 
@@ -289,6 +364,29 @@ public class SQLiteHelper extends SQLiteOpenHelper{
             return admin;
         }
 
+     //Lấy thông tin của Customer
+    public Customer getCustomerInfor (String userName){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = null;
+        Customer customer = null;
+        try {
+            //Truy vấn cở sở dữ liệu để lấy thông tin của Customer
+            cursor = db.query(TABLE_NAME, null, userName_COL + " = ?",
+                    new String[]{userName}, null, null, null);
+            if(cursor != null && cursor.moveToFirst()){
+                String name = cursor.getString((cursor.getColumnIndexOrThrow(Name_COL)));
+                customer = new Customer(name);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            if (cursor != null){
+                cursor.close();
+            }
+            db.close();
+        }
+        return customer;
+    }
     //Lấy passWord trong database để so sánh đăng nhập Admin
     public  String getHashedPassWordByUserNameAdmin(String userName){
         SQLiteDatabase db = this.getReadableDatabase();
@@ -351,6 +449,18 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         return false;
     }
 
-
+    //Kiểm tra tỉnh thành đã có trong table chưa
+    public boolean isLocationExits(String Name){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor;
+        //Kiểm tra trong bảng Location
+        cursor = db.rawQuery("SELECT 1 FROM Location WHERE Name =?", new String[]{Name});
+            if (cursor.getCount() > 0){
+                cursor.close();;
+                return true;
+            }
+            cursor.close();
+            return false;
+        }
 
 }

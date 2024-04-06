@@ -13,9 +13,9 @@ import java.util.List;
 
 public class CustomerArrayAdapter {
     //Kết nối SQLite
-    private SQLiteHelper dbHelper;
+    private final SQLiteHelper dbHelper;
     private SQLiteDatabase database;
-    private String[] allColumsCustomer = {SQLiteHelper.ID_COL, SQLiteHelper.Name_COL,SQLiteHelper.userName_COL,SQLiteHelper.passWord_COL, SQLiteHelper.email_COL, SQLiteHelper.gender_COL,
+    private final String[] allColumsCustomer = {SQLiteHelper.ID_COL, SQLiteHelper.Name_COL,SQLiteHelper.userName_COL,SQLiteHelper.passWord_COL, SQLiteHelper.email_COL, SQLiteHelper.gender_COL,
                                             SQLiteHelper.dateOfBirth_COL,SQLiteHelper.phone_COL};
 
     CustomerArrayAdapter(Context context){

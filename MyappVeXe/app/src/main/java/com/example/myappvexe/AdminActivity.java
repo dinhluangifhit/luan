@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myappvexe.Customer.DanhSachKhachHangAcitivity;
+import com.example.myappvexe.Location.LocationActivity;
 
 public class AdminActivity extends AppCompatActivity {
     private TextView ListStaff, ListUser, ListCastegory, ListProduct, ListStatistical, inLogout, ViewName, ViewEmail;
@@ -62,6 +63,15 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
 
+        ListCastegory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminActivity.this, LocationActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         inLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +90,7 @@ public class AdminActivity extends AppCompatActivity {
         editor.putBoolean("isLogin", false);
         editor.apply();
 
-        Intent intent = new Intent(AdminActivity.this, DangNhapActivity.class);
+        Intent intent = new Intent(this, DangNhapActivity.class);
         startActivity(intent);
         finish();
     }
