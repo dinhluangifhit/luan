@@ -6,16 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".Customer.HomePage">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="0dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -188,8 +185,7 @@
                         android:id="@+id/searchTrip"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Tìm kiếm"
-                        />
+                        android:text="Tìm kiếm" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -312,15 +308,17 @@
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
             <ListView
                 android:id="@+id/listShowTripHome"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
                 tools:ignore="MissingConstraints" />
         </LinearLayout>
-
-    </LinearLayout>
-
+    </ScrollView>
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
