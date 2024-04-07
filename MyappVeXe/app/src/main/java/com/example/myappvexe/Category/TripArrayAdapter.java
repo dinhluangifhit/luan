@@ -19,7 +19,7 @@ public class TripArrayAdapter {
             SQLiteHelper.tripTimeStar_COL,SQLiteHelper.tripTimeEnd_COL, SQLiteHelper.tripPrice_COL,
             SQLiteHelper.seats_COL, SQLiteHelper.intendTime};
 
-    TripArrayAdapter(Context context) {dbHelper = new SQLiteHelper(context);}
+    public TripArrayAdapter(Context context) {dbHelper = new SQLiteHelper(context);}
 
     public void opent() throws SecurityException{
         database = dbHelper.getWritableDatabase();

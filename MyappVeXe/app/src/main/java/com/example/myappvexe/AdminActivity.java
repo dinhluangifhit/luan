@@ -21,14 +21,14 @@ public class AdminActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
-        ListUser = (TextView) findViewById(R.id.listUser);
-        ListCastegory = (TextView) findViewById(R.id.listCastegory);
-        ListProduct = (TextView) findViewById(R.id.listProduct);
-        ListStatistical = (TextView) findViewById(R.id.listStatistical);
-        ListStaff = (TextView) findViewById(R.id.listStaff);
-        ViewName = (TextView) findViewById(R.id.viewNameAdmin);
-        ViewEmail = (TextView) findViewById(R.id.viewEmail);
-        inLogout = (TextView) findViewById(R.id.logOut);
+        ListUser =  findViewById(R.id.listUser);
+        ListCastegory =  findViewById(R.id.listCastegory);
+        ListProduct = findViewById(R.id.listProduct);
+        ListStatistical =  findViewById(R.id.listStatistical);
+        ListStaff = findViewById(R.id.listStaff);
+        ViewName = findViewById(R.id.viewNameAdmin);
+        ViewEmail =  findViewById(R.id.viewEmail);
+        inLogout = findViewById(R.id.logOut);
 
         // Kiểm tra nếu có thông tin tài khoản admin từ SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
@@ -50,7 +50,7 @@ public class AdminActivity extends AppCompatActivity {
                 Intent intent = new Intent(AdminActivity.this, DanhSachNhanVienActivity.class);
                 startActivity(intent);
                 finish();
-                ListStaff.setBackgroundColor(Color.BLUE);
+
             }
         });
 
@@ -60,7 +60,7 @@ public class AdminActivity extends AppCompatActivity {
                 Intent intent = new Intent(AdminActivity.this, DanhSachKhachHangAcitivity.class);
                 startActivity(intent);
                 finish();
-                ListUser.setBackgroundColor(Color.BLUE);
+
             }
         });
 
@@ -86,7 +86,7 @@ public class AdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 removreLogin();
-                inLogout.setBackgroundColor(Color.GREEN);
+
             }
         });
     }
