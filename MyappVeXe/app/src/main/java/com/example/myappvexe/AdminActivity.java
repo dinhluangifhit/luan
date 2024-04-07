@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.myappvexe.Category.CategoryActivity;
 import com.example.myappvexe.Customer.DanhSachKhachHangAcitivity;
 import com.example.myappvexe.Location.LocationActivity;
 
@@ -69,6 +70,14 @@ public class AdminActivity extends AppCompatActivity {
                 Intent intent = new Intent(AdminActivity.this, LocationActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        ListProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminActivity.this, CategoryActivity.class);
+                startActivity(intent);
             }
         });
 

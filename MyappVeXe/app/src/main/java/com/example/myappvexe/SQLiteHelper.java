@@ -85,7 +85,6 @@ public class SQLiteHelper extends SQLiteOpenHelper{
     public static final String tripPrice_COL = "price";
     public static final String seats_COL = "seat";
     public static final String intendTime = "tripTime";
-    public static final String LOCATION_ID_COL  = "idLocaton";
 
 
 

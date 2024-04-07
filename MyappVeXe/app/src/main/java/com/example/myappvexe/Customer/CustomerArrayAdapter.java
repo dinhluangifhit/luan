@@ -28,23 +28,6 @@ public class CustomerArrayAdapter {
 
     public void close() {dbHelper.close();}
 
-    public Customer CreateCustomer (String name){
-        ContentValues values = new ContentValues();
-        values.put(SQLiteHelper.Name_COL, name);
-        long inSertID = database.insert(SQLiteHelper.TABLE_NAME, null, values);
-        Cursor cursor = database.query(SQLiteHelper.TABLE_NAME, allColumsCustomer, SQLiteHelper.ID_COL +
-                " = " + inSertID, null, null, null, null, null);
-        cursor.moveToFirst();
-        Customer newCustomer = cursorToCustomer(cursor);
-        cursor.close();
-        return newCustomer;
-    }
-
-    public void deletedCustomer(Customer name){
-        long id  = name.getId();
-        System.out.println("Coment deleted withd id: " + id);
-        database.delete(SQLiteHelper.TABLE_NAME, SQLiteHelper.ID_COL + " = " + id, null);
-    }
 
     public List<Customer> getAllCustomers(){
         List<Customer> customers = new ArrayList<Customer>();

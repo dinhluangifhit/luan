@@ -43,26 +43,42 @@ public class DetailedActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(selectedStaff != null) {
-                    String name = selectedStaff.getName();
-                    String username = selectedStaff.getUsername();
-                    String password = selectedStaff.getPassword();
-                    String email = selectedStaff.getEmail();
-                    String phone = selectedStaff.getPhone();
+                    AlertDialog.Builder confimBuilder = new AlertDialog.Builder(DetailedActivity.this);
+                    confimBuilder.setTitle("Xác phân quyền");
+                    confimBuilder.setMessage("Bạn có muốn phân quyền cho nhân viên này?");
+                    confimBuilder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String name = selectedStaff.getName();
+                                    String username = selectedStaff.getUsername();
+                                    String password = selectedStaff.getPassword();
+                                    String email = selectedStaff.getEmail();
+                                    String phone = selectedStaff.getPhone();
 
-                    sqLiteHelper = new SQLiteHelper(DetailedActivity.this);
-                    if(sqLiteHelper.isUserStaffExists(username)){
-                        Toast.makeText(DetailedActivity.this, "Nhân viên đã tồn tại trong Admin", Toast.LENGTH_SHORT).show();
-                    } else {
-                        sqLiteHelper.adAdmin(name, username, password, email, phone);
-                        sqLiteHelper.deleteDataStaff(username);
-                        Toast.makeText(DetailedActivity.this, "Đã thêm nhân viên thành công", Toast.LENGTH_SHORT).show();
+                                    sqLiteHelper = new SQLiteHelper(DetailedActivity.this);
+                                    if(sqLiteHelper.isUserStaffExists(username)){
+                                        Toast.makeText(DetailedActivity.this, "Nhân viên đã tồn tại trong Admin", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        sqLiteHelper.adAdmin(name, username, password, email, phone);
+                                        sqLiteHelper.deleteDataStaff(username);
+                                        Toast.makeText(DetailedActivity.this, "Đã thêm nhân viên thành công", Toast.LENGTH_SHORT).show();
 
-                        Intent intent1 = new Intent(DetailedActivity.this, DanhSachNhanVienActivity.class);
-                        startActivity(intent1);
-                        finish();
+                                        Intent intent1 = new Intent(DetailedActivity.this, DanhSachNhanVienActivity.class);
+                                        startActivity(intent1);
+                                        finish();
 
+                                    }
+                                }
 
-                    }
+                            });
+                    confimBuilder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    confimBuilder.create().show();
+
 
                 } else {
                     Toast.makeText(DetailedActivity.this, "Không thể thêm Admin từ nhân viên không hợp lệ", Toast.LENGTH_SHORT).show();

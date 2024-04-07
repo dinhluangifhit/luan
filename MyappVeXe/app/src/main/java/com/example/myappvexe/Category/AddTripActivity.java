@@ -14,6 +14,7 @@ import android.widget.CursorAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.myappvexe.R;
 import com.example.myappvexe.SQLiteHelper;
@@ -86,7 +87,25 @@ public class AddTripActivity extends AppCompatActivity {
         BntAddTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (validaterFields()){
+                    String locationStar = AutoCompleteLocationTrip.getText().toString().trim();
+                    String locationEnd = AutoCompleteStationTrip.getText().toString().trim();
+                    String dateBusStar = EditDateBusStar.getText().toString().trim();
+                    String timeBusStar = EditTimeBusStar.getText().toString().trim();
+                    String timeBusEnd = EditTimeBusEnd.getText().toString().trim();
+                    String timeEnd = TimeEnd.getText().toString().trim();
+                    String priceTrip = PriceTrip.getText().toString().trim();
+                    String seats = SeatTrip.getText().toString().trim();
+                    if (!locationStar.equals(locationEnd)){
+                        dbHelper.addTrip(locationStar, locationEnd, dateBusStar, timeBusStar, timeBusEnd, priceTrip,
+                                seats, timeEnd);
+                        Toast.makeText(AddTripActivity.this, "Đã thêm chuyến đi thành công!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(AddTripActivity.this, "Không để thêm chuyến đi trong 1 tỉnh thành", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(AddTripActivity.this, "Vui lòng nhập đầy đủ các thông tin!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -97,6 +116,24 @@ public class AddTripActivity extends AppCompatActivity {
         db.close();
     }
 
+
+    //Kiểm tra các trường
+    private boolean validaterFields(){
+        String locationStar = AutoCompleteLocationTrip.getText().toString().trim();
+        String locationEnd = AutoCompleteStationTrip.getText().toString().trim();
+        String dateBusStar = EditDateBusStar.getText().toString().trim();
+        String timeBusStar = EditTimeBusStar.getText().toString().trim();
+        String timeBusEnd = EditTimeBusEnd.getText().toString().trim();
+        String timeEnd = TimeEnd.getText().toString().trim();
+        String priceTrip = PriceTrip.getText().toString().trim();
+        String seats = SeatTrip.getText().toString().trim();
+
+        if(locationEnd.isEmpty() || locationStar.isEmpty() || dateBusStar.isEmpty() || timeBusStar.isEmpty() ||
+         timeBusEnd.isEmpty() || timeEnd.isEmpty() || priceTrip.isEmpty() || seats.isEmpty()){
+            return false;
+        }
+        return true;
+    }
     //Hiển thị chọn thời gian
     public  void showDialogTime(View v){
         final Calendar c = Calendar.getInstance();
