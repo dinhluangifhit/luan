@@ -6,10 +6,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.myappvexe.AdminActivity;
 import com.example.myappvexe.Customer.Customer;
 import com.example.myappvexe.Customer.CustomerArrayAdapter;
 import com.example.myappvexe.Customer.ListAdapterCustpmer;
@@ -17,10 +19,11 @@ import com.example.myappvexe.R;
 import com.example.myappvexe.SQLiteHelper;
 
 import java.util.List;
+import java.util.Locale;
 
 public class CategoryActivity extends AppCompatActivity {
     private EditText SearchTripList;
-    private TextView TxtAddTrip;
+    private TextView TxtAddTrip, TxtBackHomeAdmin;
     private ListAdapterTrip adapterTrip;
     private SwipeRefreshLayout SwipeRefreshLayout;
     private SQLiteHelper sqLiteHelper;
@@ -35,6 +38,8 @@ public class CategoryActivity extends AppCompatActivity {
 
         TxtAddTrip = findViewById(R.id.txtAddTrip);
         ListShowTrip = findViewById(R.id.listShowTrip);
+        TxtBackHomeAdmin = findViewById(R.id.txtBackHomeAdmin);
+
 
         adapter = new TripArrayAdapter(this);
         adapter.opent();
@@ -56,11 +61,34 @@ public class CategoryActivity extends AppCompatActivity {
             }
         });
 
+        ListShowTrip.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Trip selectedTrip = (Trip) parent.getItemAtPosition(position);
+
+                Intent intent = new Intent(CategoryActivity.this, DetailTripActivity.class);
+
+                intent.putExtra("selectedTrip", selectedTrip);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        TxtBackHomeAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =  new Intent(CategoryActivity.this, AdminActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         TxtAddTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CategoryActivity.this, AddTripActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         

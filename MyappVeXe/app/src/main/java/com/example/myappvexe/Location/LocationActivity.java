@@ -12,13 +12,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.myappvexe.AdminActivity;
 import com.example.myappvexe.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LocationActivity extends AppCompatActivity {
-    private TextView TxtAddLocation;
+    private TextView TxtAddLocation, TxtBackHomeAdmin;
     private LocationArrayAdapter adapter;
     private ListView ListShowLocation;
     private EditText SearchLocationList;
@@ -34,6 +35,7 @@ public class LocationActivity extends AppCompatActivity {
         ListShowLocation = findViewById(R.id.listShowLocation);
         SearchLocationList = findViewById(R.id.searchLocationList);
         TxtAddLocation = findViewById(R.id.txtAddLocation);
+        TxtBackHomeAdmin = findViewById(R.id.txtBackHomeAdmin);
 
         adapter = new LocationArrayAdapter(this);
         adapter.open();
@@ -54,11 +56,20 @@ public class LocationActivity extends AppCompatActivity {
                 SwipeRefreshLayout.setRefreshing(false);
             }
         });
+        TxtBackHomeAdmin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LocationActivity.this, AdminActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         TxtAddLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LocationActivity.this, AddLocationActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 

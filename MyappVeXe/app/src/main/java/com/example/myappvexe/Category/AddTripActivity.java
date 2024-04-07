@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ public class AddTripActivity extends AppCompatActivity {
     private AutoCompleteTextView AutoCompleteStationTrip,  AutoCompleteLocationTrip;
     private SQLiteDatabase db;
     private EditText EditTimeBusStar, EditDateBusStar, EditTimeBusEnd, TimeEnd, PriceTrip, SeatTrip;
+    private TextView TxtBackListTrip;
     private Button BntAddTrip;
 
     @Override
@@ -41,6 +44,7 @@ public class AddTripActivity extends AppCompatActivity {
         AutoCompleteStationTrip = findViewById(R.id.autoCompleteStationTrip);
         AutoCompleteLocationTrip = findViewById(R.id.autoCompleteLocationTrip);
         BntAddTrip = findViewById(R.id.bntAddTrip);
+        TxtBackListTrip = findViewById(R.id.txtBackListTrip);
 
 
 
@@ -50,6 +54,15 @@ public class AddTripActivity extends AppCompatActivity {
 
         AutoCompleteLocationTrip.setAdapter(adapter);
         AutoCompleteStationTrip.setAdapter(adapter);
+
+        TxtBackListTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddTripActivity.this, CategoryActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         AutoCompleteLocationTrip.setOnItemClickListener((adapterView, view, position, id) -> {
             // Lấy CursorAdapter và Cursor tương ứng
@@ -100,6 +113,16 @@ public class AddTripActivity extends AppCompatActivity {
                         dbHelper.addTrip(locationStar, locationEnd, dateBusStar, timeBusStar, timeBusEnd, priceTrip,
                                 seats, timeEnd);
                         Toast.makeText(AddTripActivity.this, "Đã thêm chuyến đi thành công!", Toast.LENGTH_SHORT).show();
+                        //Xóa thông tin ngay sau khi đã thêm thành công
+
+                        AutoCompleteLocationTrip.setText("");
+                        AutoCompleteStationTrip.setText("");
+                        EditDateBusStar.setText("");
+                        EditTimeBusStar.setText("");
+                        EditTimeBusEnd.setText("");
+                        TimeEnd.setText("");
+                        PriceTrip.setText("");
+                        SeatTrip.setText("");
                     } else {
                         Toast.makeText(AddTripActivity.this, "Không để thêm chuyến đi trong 1 tỉnh thành", Toast.LENGTH_SHORT).show();
                     }

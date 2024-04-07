@@ -1,6 +1,10 @@
 package com.example.myappvexe.Category;
 
-public class Trip {
+import androidx.annotation.NonNull;
+
+import java.io.Serializable;
+
+public class Trip implements Serializable {
     private long id;
     private String locationStar ;
     private String locationEnd ;
@@ -83,6 +87,7 @@ public class Trip {
         this.seats = seats;
     }
 
+    @NonNull
     @Override
     public String toString(){
         return locationStar + "\n" + locationEnd + "\n" + dateBusStar + "\n" +

@@ -286,11 +286,20 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         db.close();
     }
 
+
     //Xóa data trong bảng Register
     public void deleteDataCus(String username){
         SQLiteDatabase db = this.getWritableDatabase();
         //Xóa khách hàng
         db.delete(TABLE_NAME, userName_COL + "=?", new String[]{username});
+        db.close();
+    }
+
+    //Xóa data trong bảng Tip
+    public void deleteDataTrip(int tripID){
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Xóa chuyến đi
+        db.delete(TABLE_TRIP, "id=?", new String[]{String.valueOf(tripID)});
         db.close();
     }
 
